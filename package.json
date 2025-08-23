@@ -49,11 +49,6 @@
   "release": {
     "branches": [
       "main"
-    ],
-    "plugins": [
-      "@semantic-release/git",
-      "@semantic-release/exec",
-      "@semantic-release/changelog"
     ]
   },
   "knip": {
