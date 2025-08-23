@@ -1,9 +1,14 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": true },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["**/package-lock.json", "**/bun.lockb", "**/pnpm-lock.yaml"]
+    "includes": [
+      "**",
+      "!**/package-lock.json",
+      "!**/bun.lockb",
+      "!**/pnpm-lock.yaml"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -17,7 +22,7 @@
       "quoteStyle": "single"
     }
   },
-  "organizeImports": { "enabled": true },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
@@ -35,11 +40,11 @@
         "useExhaustiveDependencies": "error"
       }
     },
-    "ignore": ["**/tsconfig*.json"]
+    "includes": ["**", "!**/tsconfig*.json"]
   },
   "overrides": [
     {
-      "include": ["**/tsconfig*.json"],
+      "includes": ["**/tsconfig*.json"],
       "json": {
         "parser": {
           "allowComments": true
