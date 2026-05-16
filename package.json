@@ -28,6 +28,8 @@
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
     "@total-typescript/ts-reset": "^0.6.1",
+    "@tsconfig/bun": "^1.0.10",
+    "@tsconfig/strictest": "^2.0.8",
     "@types/bun": "^1.2.20",
     "@types/node": "^24.3.0",
     "@yoshintame/biome-config": "^1.0.0",
