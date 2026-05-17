@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit --project tsconfig.json",
     "commitlint": "commitlint --edit",
     "preinstall": "npx only-allow bun",
+    "prepare": "husky",
     "lint-staged": "bun exec lint-staged",
     "env:encrypt": "dotenvx encrypt -f .env.* -fk .env",
     "env:decrypt": "dotenvx decrypt -f .env.* -fk .env",
