@@ -7,9 +7,6 @@
     "noUnusedParameters": true,
     "noPropertyAccessFromIndexSignature": true,
     "resolveJsonModule": true,
-    "noUncheckedSideEffectImports": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "noUncheckedSideEffectImports": true
   }
 }
