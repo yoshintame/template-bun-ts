@@ -22,7 +22,9 @@ lerna-debug.log*
 report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # Environment variables
-.env.*
+.env
+.env.keys
+.env*.local
 
 # Caches
 .eslintcache
