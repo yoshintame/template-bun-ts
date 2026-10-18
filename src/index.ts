@@ -10,5 +10,5 @@ if (import.meta.main) {
     fetch: handleRequest,
   })
 
-  console.log({ message: `Server running at http://localhost:${server.port}` })
+  console.log({ message: `Server running at ${server.url.href}` })
 }

@@ -2,7 +2,7 @@
 
 Personal `bun create` template for TypeScript projects on Bun.
 
-The stack: tsconfig `@tsconfig/strictest` + `@tsconfig/bun`, oxlint + oxfmt via `@yoshintame/ox-config`, git hooks and checks via `hk-config`, CI via `yoshintame/workflows`, `bun test`, knip and dotenvx. The seed is a `Bun.serve` hello world with one test.
+The stack: tsconfig `@tsconfig/strictest` + `@tsconfig/bun`, type-aware oxlint (`base` + `strict` presets, with `typeCheck`) and oxfmt via `@yoshintame/ox-config`, git hooks and checks via `hk-config`, CI via `yoshintame/workflows`, `bun test`, knip and dotenvx. The seed is a `Bun.serve` hello world with one test.
 
 ## Usage
 
