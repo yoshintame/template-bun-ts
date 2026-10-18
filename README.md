@@ -22,7 +22,7 @@ bun run dev
 | `bun run dev`                         | Run `src/index.ts` in watch mode with `.env.development` through dotenvx |
 | `bun run test`                        | `bun test`                                                               |
 | `bun run typecheck`                   | `tsc --noEmit` (strictest + bun combo)                                   |
-| `bun run depscheck`                   | knip (unused deps / exports)                                             |
+| `bun run depscheck`                   | knip (unused deps / exports), also a slow hk step                        |
 | `bun run env:encrypt` / `env:decrypt` | Encrypt or decrypt `.env.*` with dotenvx                                 |
 
 ## Development
@@ -33,12 +33,14 @@ CI is `.github/workflows/ci.yml` on top of [`yoshintame/workflows`](https://gith
 
 Internal imports go through the `#src/*` subpath imports in `package.json` (`#src/index` resolves to `./src/index.ts`), not a tsconfig `paths` alias.
 
+dotenvx keeps the private keys in `.env`, which git ignores; the encrypted `.env.*` files are meant to be committed.
+
 ## Publishing
 
 The template is an app. To publish it as a single package:
 
-1. In `package.json` drop `"private": true` and the `preinstall` script (npm runs it on the consumer's install, where `only-allow bun` fails it), set `"version": "0.0.0-development"` (semantic-release sets the real one) and add `exports`, `files`, `repository` and `publishConfig`. A package for Bun consumers can ship its sources as they are: `"exports": { ".": "./src/index.ts" }`, `"files": ["src"]`; the `#src/*` imports travel with it. Drop `src/types/reset.d.ts` and `@total-typescript/ts-reset` too: consumers type-check the shipped sources without ts-reset.
-2. Switch `hk.pkl` to the `ts-lib.pkl` preset and add the `lint:package` script it runs: `bun add -d publint @arethetypeswrong/cli`, then `"lint:package": "publint --strict && attw --pack . --profile esm-only"`. A package with a build step prepends `bun run build &&` and adds `"prepack": "bun run build"`: the release job publishes from a clean checkout.
+1. In `package.json` drop `"private": true`, set `"version": "0.0.0-development"` (semantic-release sets the real one) and add `exports`, `files`, `repository` and `publishConfig`. A package for Bun consumers can ship its sources as they are: `"exports": { ".": "./src/index.ts" }`, `"files": ["src"]`; the `#src/*` imports travel with it. Drop `src/types/reset.d.ts` and `@total-typescript/ts-reset` too: consumers type-check the shipped sources without ts-reset.
+2. Switch `hk.pkl` to the `ts-lib.pkl` preset and add the `lint:package` script it runs: `bun add -d publint @arethetypeswrong/cli`, then `"lint:package": "publint --strict && attw --pack . --profile esm-only"`. A package with a build step prepends `bun run build &&` and adds `"prepack": "bun run build"`, since the release job publishes from a clean checkout. Build it with a bundler (`tsup`, `bun build`): `tsc` leaves the `#src/*` specifiers pointing at `src`, which such a package does not ship.
 3. `bun add -d semantic-release` and add `"release": { "branches": ["main"] }` to `package.json`.
-4. On npmjs a trusted publisher can only be added to an existing package: publish the first version by hand with `version` temporarily set to it, tag that commit `vX.Y.Z`, push the tag, then add the publisher as described in [Registries and permissions](https://github.com/yoshintame/workflows#registries-and-permissions).
+4. On npmjs a trusted publisher can only be added to an existing package: publish the first version by hand with `version` temporarily set to it, tag that commit `vX.Y.Z`, push the tag, then add the publisher as described in [Registries and permissions](https://github.com/yoshintame/workflows#registries-and-permissions) and set the package's publishing access to require two-factor authentication and disallow tokens.
 5. Add the `release` job from the [`yoshintame/workflows` usage](https://github.com/yoshintame/workflows#usage) to `.github/workflows/ci.yml`, pinned to the same ref as `verify`, with the permissions your registry needs.
